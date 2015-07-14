@@ -94,6 +94,8 @@ class CalculationsController < ApplicationController
 
     @mean = @sum/@numbers.length
 
+        # I needed to look for the solution online to figure this out: was stumped
+
     squared_deltas = []
 
     @numbers.each do |number|
