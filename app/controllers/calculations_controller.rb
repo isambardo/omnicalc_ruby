@@ -1,5 +1,7 @@
 class CalculationsController < ApplicationController
 
+
+
   def word_count
     @text = params[:user_text]
     @special_word = params[:user_word]
@@ -68,26 +70,52 @@ class CalculationsController < ApplicationController
     # The numbers the user input are in the array @numbers.
     # ================================================================================
 
-    @sorted_numbers = "Replace this string with your answer."
+    @sorted_numbers = @numbers.sort
 
-    @count = "Replace this string with your answer."
+    @count = @numbers.count
 
-    @minimum = "Replace this string with your answer."
+    @minimum = @numbers.min
 
-    @maximum = "Replace this string with your answer."
+    @maximum = @numbers.max
 
-    @range = "Replace this string with your answer."
+    @range = @maximum - @minimum
 
-    @median = "Replace this string with your answer."
+    @median = (@sorted_numbers[(@numbers.length - 1) / 2] + @sorted_numbers[@numbers.length / 2]) / 2.0
 
-    @sum = "Replace this string with your answer."
+    def sum(list_of_numbers)
+     running_total = 0
+     list_of_numbers.each do |number|
+       running_total = running_total + number
+                          end
+     return running_total
+    end
 
-    @mean = "Replace this string with your answer."
+    @sum = @numbers.sum
 
-    @variance = "Replace this string with your answer."
+    @mean = @sum/@numbers.length
 
-    @standard_deviation = "Replace this string with your answer."
+    squared_deltas = []
 
-    @mode = "Replace this string with your answer."
+    @numbers.each do |number|
+      delta_squared = (number - @mean) **2
+      squared_deltas.push(delta_squared)
+    end
+
+    @variance = squared_deltas.sum/@count
+
+    @standard_deviation = @variance ** 0.5
+
+    mode = 0
+    mode_counter = 0
+
+    @numbers.each do |number|
+      frequency = @numbers.count(number)
+      if frequency > mode_counter
+        mode = number
+        mode_counter = frequency
+      end
+    end
+
+    @mode = mode
   end
 end
